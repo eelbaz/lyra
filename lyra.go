@@ -109,7 +109,7 @@ func checkResource(url string, cdn string, workflow string) result {
 	if err != nil {
 		return result{Error: err}
 	}
-	req.Header.Add("User-Agent", "Akamai Lyra/1.2;  Perforamnce Metrics Agent")
+	req.Header.Add("User-Agent", "Akamai Lyra/1.2;  Performance Metrics Agent")
 
 	dnsStart := time.Now()
 	_, err = net.LookupHost(req.URL.Hostname())
@@ -131,11 +131,12 @@ func checkResource(url string, cdn string, workflow string) result {
 		InsecureSkipVerify: true,
 		ServerName:         req.URL.Hostname(),
 	})
-	defer tlsConn.Close()
+
 	err = tlsConn.Handshake()
 	if err != nil {
 		return result{Error: err}
 	}
+	defer tlsConn.Close()
 	tlsHandshake := time.Since(tlsStart)
 
 	serverStart := time.Now()
@@ -167,9 +168,6 @@ func checkResource(url string, cdn string, workflow string) result {
 
 	//_, err = io.Copy(io.Discard, res.Body) // avoud ERR_CLIENT_ABORT
 	_, err = io.ReadAll(res.Body)
-	if err != nil {
-		return result{Error: err}
-	}
 	if err != nil {
 		return result{Error: err}
 	}
