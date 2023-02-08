@@ -52,7 +52,7 @@ func writePoint(result result, influxUrl string, org string, bucket string, key 
 	defer client.Close()
 
 	// DNS Lookup   TCP Connection   TLS Handshake   Server Processing   Content Transfer Total
-	point := influx.NewPointWithMeasurement("httpstats").
+	point := influx.NewPointWithMeasurement("cbs").
 		AddTag("cdn", result.cdn).
 		AddTag("workflow", result.workflow).
 		AddTag("contenttype", result.contentType).
@@ -100,13 +100,16 @@ func checkResource(url string, cdn string, workflow string) result {
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 	}
-	client := &http.Client{Transport: tr}
+	client := &http.Client{
+		Transport: tr,
+		Timeout:   time.Duration(2) * time.Second,
+	}
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return result{Error: err}
 	}
-	req.Header.Add("User-Agent", "Akamai Lyra/1.2 ,  Perforamnce Metrics Agent")
+	req.Header.Add("User-Agent", "Akamai Lyra/1.2;  Perforamnce Metrics Agent")
 
 	dnsStart := time.Now()
 	_, err = net.LookupHost(req.URL.Hostname())
@@ -152,22 +155,27 @@ func checkResource(url string, cdn string, workflow string) result {
 	if err != nil {
 		return result{Error: err}
 	}
+
 	availability := res.StatusCode
 	contenttype := res.Header.Get("content-type")
-
-	defer res.Body.Close()
-	_, err = io.Copy(io.Discard, res.Body)
-	if err != nil {
-		return result{Error: err}
-	}
-	contentTransfer := time.Since(contentStart)
 
 	headerBytes, err := json.Marshal(res.Header)
 	if err != nil {
 		return result{Error: err}
 	}
-	//headers := base64.StdEncoding.EncodeToString(headerBytes)
 	headers := string(headerBytes)
+
+	//_, err = io.Copy(io.Discard, res.Body) // avoud ERR_CLIENT_ABORT
+	_, err = io.ReadAll(res.Body)
+	if err != nil {
+		return result{Error: err}
+	}
+	if err != nil {
+		return result{Error: err}
+	}
+	defer res.Body.Close()
+
+	contentTransfer := time.Since(contentStart)
 
 	return result{
 		DNSLookup:        float64(dnsLookup.Milliseconds()),
