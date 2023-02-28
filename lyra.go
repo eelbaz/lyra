@@ -32,7 +32,7 @@ type result struct {
 }
 
 type Config struct {
-	TagPrefix                  string `json:tag_prefix`
+	TagPrefix                  string `json:"tag_prefix"`
 	NumUsers                   int    `json:"num_users"`
 	Debug                      bool   `json:"debug"`
 	UseInfluxDB                bool   `json:"use_influx_db"`

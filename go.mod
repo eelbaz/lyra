@@ -1,11 +1,8 @@
-module gometrics.go
+module lyra
 
 go 1.19
 
-require (
-	github.com/influxdata/influxdb-client-go v1.4.0
-	github.com/tcnksm/go-httpstat v0.2.0
-)
+require github.com/influxdata/influxdb-client-go v1.4.0
 
 require (
 	github.com/deepmap/oapi-codegen v1.3.6 // indirect
