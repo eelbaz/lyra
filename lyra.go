@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"context"
 	"crypto/tls"
 	"encoding/json"
 	"fmt"
@@ -11,6 +10,7 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	influx "github.com/influxdata/influxdb-client-go"
@@ -32,45 +32,44 @@ type result struct {
 }
 
 type Config struct {
-	NumUsers       int    `json:"num_users"`
-	Debug          bool   `json:"debug"`
-	UseInfluxDB    bool   `json:"use_influx_db"`
-	InfluxDBUrl    string `json:"influx_db_uri"`
-	InfluxDBApiKey string `json:"influx_db_api_key"`
-	InfluxDBOrg    string `json:"influx_db_org"`
-	InfluxDBBucket string `json:"influx_db_bucket"`
-	Resources      []struct {
+	TagPrefix                  string `json:tag_prefix`
+	NumUsers                   int    `json:"num_users"`
+	Debug                      bool   `json:"debug"`
+	UseInfluxDB                bool   `json:"use_influx_db"`
+	InfluxDBUrl                string `json:"influx_db_uri"`
+	InfluxDBApiKey             string `json:"influx_db_api_key"`
+	InfluxDBOrg                string `json:"influx_db_org"`
+	InfluxDBBucket             string `json:"influx_db_bucket"`
+	InfluxPointMeasurementName string `json:"influx_point_measurement_name"`
+	Resources                  []struct {
 		URL      string `json:"url"`
 		CDN      string `json:"cdn"`
 		Workflow string `json:"workflow"`
 	} `json:"resources"`
 }
 
-func writePoint(result result, influxUrl string, org string, bucket string, key string) error {
+func writePoint(result result, influxUrl string, org string, bucket string, key string, pointname string, tagprefix string) error {
 	client := influx.NewClient(influxUrl, key)
-	writeAPI := client.WriteAPIBlocking(org, bucket)
+	writeAPI := client.WriteAPI(org, bucket)
 	defer client.Close()
 
 	// DNS Lookup   TCP Connection   TLS Handshake   Server Processing   Content Transfer Total
-	point := influx.NewPointWithMeasurement("cbs").
-		AddTag("cdn", result.cdn).
-		AddTag("workflow", result.workflow).
-		AddTag("contenttype", result.contentType).
-		AddField("dnslookup", result.DNSLookup).
-		AddField("tcpconnection", result.TCPConnection).
-		AddField("tlshandshake", result.TLSHandshake).
-		AddField("serverprocessing", result.ServerProcessing).
-		AddField("contenttransfer", result.ContentTransfer).
-		AddField("total", result.Total).
-		AddField("availability", result.Availability).
-		AddField("headers", result.Headers).
-		AddField("error", result.Error).
+	point := influx.NewPointWithMeasurement(pointname).
+		AddTag(tagprefix+"cdn", result.cdn).
+		AddTag(tagprefix+"workflow", result.workflow).
+		AddTag(tagprefix+"contenttype", result.contentType).
+		AddField(tagprefix+"dnslookup", result.DNSLookup).
+		AddField(tagprefix+"tcpconnection", result.TCPConnection).
+		AddField(tagprefix+"tlshandshake", result.TLSHandshake).
+		AddField(tagprefix+"serverprocessing", result.ServerProcessing).
+		AddField(tagprefix+"contenttransfer", result.ContentTransfer).
+		AddField(tagprefix+"total", result.Total).
+		AddField(tagprefix+"availability", result.Availability).
+		AddField(tagprefix+"headers", result.Headers).
+		AddField(tagprefix+"error", result.Error).
 		SetTime(time.Now().UTC())
 
-	err := writeAPI.WritePoint(context.Background(), point)
-	if err != nil {
-		return err
-	}
+	writeAPI.WritePoint(point)
 
 	return nil
 }
@@ -93,6 +92,12 @@ func parseConfig(filePath string) (Config, error) {
 	return config, nil
 }
 
+func getPort(url string) string {
+	if strings.Contains(url, "https://") {
+		return ":443"
+	}
+	return ":80"
+}
 func checkResource(url string, cdn string, workflow string) result {
 
 	start := time.Now()
@@ -102,7 +107,10 @@ func checkResource(url string, cdn string, workflow string) result {
 	}
 	client := &http.Client{
 		Transport: tr,
-		Timeout:   time.Duration(2) * time.Second,
+		Timeout:   0,
+		CheckRedirect: func(req *http.Request, via []*http.Request) error {
+			return http.ErrUseLastResponse
+		},
 	}
 
 	req, err := http.NewRequest("GET", url, nil)
@@ -201,6 +209,8 @@ func main() {
 	influxDBApiKey := config.InfluxDBApiKey
 	influxDBOrg := config.InfluxDBOrg
 	InfluxDBBucket := config.InfluxDBBucket
+	InfluxPointMeasurementName := config.InfluxPointMeasurementName
+	InfluxTagPrevix := config.TagPrefix
 
 	if err != nil {
 		log.Fatal(err)
@@ -228,13 +238,12 @@ func main() {
 					return
 				}
 				fmt.Println(string(resultJSON))
-				fmt.Println("---------------------------")
 			}
 
 			r.Total = float64(time.Since(start).Milliseconds())
 
 			if useInfluxDB {
-				err := writePoint(r, influxDBUrl, influxDBOrg, InfluxDBBucket, influxDBApiKey)
+				err := writePoint(r, influxDBUrl, influxDBOrg, InfluxDBBucket, influxDBApiKey, InfluxPointMeasurementName, InfluxTagPrevix)
 
 				if err != nil {
 					fmt.Printf("Error writing point: %v\n", err)

@@ -2,6 +2,6 @@
 
 while true
 do
-  go run lyra.go 1 false
-  sleep 1
+  go run lyra.go 
+  sleep 5
 done
