@@ -1,0 +1,23 @@
+{
+  "num_users": 1,
+  "debug": true,
+  "use_influx_db": true,
+  "influx_db_uri": "http://localhost:8086",
+  "influx_db_api_key": "b-fTnLMTZ2cDC05eHVFijsDF5v4iPUIan2Te1Jcjtuut1_gpdEu0yYI9MbnYVZraVTMB9hUiTEiZb3nt6f7ZHg==",
+  "influx_db_org": "perf",
+  "influx_db_bucket": "adobe",
+  "influx_point_measurement_name":"[measurement_name]",
+  "tag_prefix":"east_",
+  "resources": [
+    {
+      "url": "https://adobe.com:443/acrobat/online/word-to-pdf.html",
+      "cdn": "adobe",
+      "workflow": "homeage"
+    },
+    {
+      "url": "https://adobe.com:443/",
+      "cdn": "adobe",
+      "workflow": "homeage"
+    }
+  ]
+}
