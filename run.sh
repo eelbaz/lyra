@@ -3,5 +3,5 @@
 while true
 do
   go run lyra.go 
-  sleep 5
+  sleep 1
 done
