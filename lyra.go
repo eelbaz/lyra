@@ -55,18 +55,18 @@ func writePoint(result result, influxUrl string, org string, bucket string, key 
 
 	// DNS Lookup   TCP Connection   TLS Handshake   Server Processing   Content Transfer Total
 	point := influx.NewPointWithMeasurement(pointname).
-		AddTag(tagprefix+"cdn", result.cdn).
-		AddTag(tagprefix+"workflow", result.workflow).
-		AddTag(tagprefix+"contenttype", result.contentType).
-		AddField(tagprefix+"dnslookup", result.DNSLookup).
-		AddField(tagprefix+"tcpconnection", result.TCPConnection).
-		AddField(tagprefix+"tlshandshake", result.TLSHandshake).
-		AddField(tagprefix+"serverprocessing", result.ServerProcessing).
-		AddField(tagprefix+"contenttransfer", result.ContentTransfer).
-		AddField(tagprefix+"total", result.Total).
-		AddField(tagprefix+"availability", result.Availability).
-		AddField(tagprefix+"headers", result.Headers).
-		AddField(tagprefix+"error", result.Error).
+		AddTag(tagprefix+"_cdn", result.cdn).
+		AddTag(tagprefix+"_workflow", result.workflow).
+		AddTag(tagprefix+"_content_type", result.contentType).
+		AddField(tagprefix+"_dnslookup", result.DNSLookup).
+		AddField(tagprefix+"_tcp_connection", result.TCPConnection).
+		AddField(tagprefix+"_tls_handshake", result.TLSHandshake).
+		AddField(tagprefix+"_server_processing", result.ServerProcessing).
+		AddField(tagprefix+"_content_transfer", result.ContentTransfer).
+		AddField(tagprefix+"_total", result.Total).
+		AddField(tagprefix+"_availability", result.Availability).
+		AddField(tagprefix+"_headers", result.Headers).
+		AddField(tagprefix+"_error", result.Error).
 		SetTime(time.Now().UTC())
 
 	writeAPI.WritePoint(point)

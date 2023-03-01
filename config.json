@@ -5,18 +5,13 @@
   "influx_db_uri": "http://localhost:8086",
   "influx_db_api_key": "b-fTnLMTZ2cDC05eHVFijsDF5v4iPUIan2Te1Jcjtuut1_gpdEu0yYI9MbnYVZraVTMB9hUiTEiZb3nt6f7ZHg==",
   "influx_db_org": "perf",
-  "influx_db_bucket": "adobe",
-  "influx_point_measurement_name":"[measurement_name]",
-  "tag_prefix":"east_",
+  "influx_db_bucket": "http_stats",
+  "influx_point_measurement_name":"[customer_name]",
+  "tag_prefix":"east",
   "resources": [
     {
       "url": "https://adobe.com:443/acrobat/online/word-to-pdf.html",
-      "cdn": "adobe",
-      "workflow": "homeage"
-    },
-    {
-      "url": "https://adobe.com:443/",
-      "cdn": "adobe",
+      "cdn": "fastly",
       "workflow": "homeage"
     }
   ]
