@@ -65,7 +65,7 @@ Before running the agent, you need to configure it using a config.json file. Her
 To run the Lyra Performance Metrics Agent, execute the following command:
 
 ```
-go run main.go
+go run lyra.go
 ```
 
 The agent will start sending performance metrics to InfluxDB according to the specified configuration.
