@@ -1,6 +1,6 @@
 ![Logo](https://github.com/eelbaz/lyra/blob/main/lyra-logo.png?raw=true)
 
-# Lyra - A lightweight HTTP Load and Performance Metrics Agent
+# Lyra - A lightweight http Test Object Load and Performance Metrics Agent Integrated with InfluxDB
 
 ## Overview
 A Simple, lightweight, concurrent agent for load simulation and monitoring http test object performance and availability -
