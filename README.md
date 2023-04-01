@@ -45,10 +45,15 @@ Before running the agent, you need to configure it using a config.json file. Her
   "influx_point_measurement_name": "performance_metrics",
   "resources": [
     {
-      "url": "https://example.com",
-      "cdn": "example_cdn_test_object",
-      "workflow": "example_workflow"
-    }
+      "url": "https://example.com/obj1.ts",
+      "cdn": "example_cdn_1",
+      "workflow": "hls_live"
+    },
+    {
+      "url": "https://example.com/obj2.mp4",
+      "cdn": "example_cdn_2",
+      "workflow": "vod_1"
+    },
   ]
 }
 ```
