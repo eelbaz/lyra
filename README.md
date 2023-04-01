@@ -1,7 +1,7 @@
 ![Logo](https://github.com/eelbaz/lyra/blob/main/lyra-logo.png?raw=true)
 
 
-# Lyra - A lightweight http Test Object Load and Performance Metrics Agent Integrated with InfluxDB
+# Lyra - A GoLang lightweight http Test Object Load and Performance Metrics Agent Integrated with InfluxDB
 
 
 ## Overview
