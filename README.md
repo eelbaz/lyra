@@ -1,17 +1,19 @@
+![Logo](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/th5xamgrr6se0x5ro4g6.png)
 
 # Lyra - A lightweight HTTP Load and Performance Metrics Agent
 
 ## Overview
-A lightweight, concurrent agent for load simulation and monitoring http test object performance and availability with InfluxDB integration.
+A Simple, lightweight, concurrent agent for load simulation and monitoring http test object performance and availability with InfluxDB integration.
 Analyze and monitor performance metrics with configurable virtual users and InfluxDB integration.
 
 
 ## Table of Contents
-- <link>Installation</link>
-- Configuration
-- Usage
-- Contributing
-- License
+- [Overview](#overview)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
 
 ### Installation
 To install the Lyra Performance Metrics Agent, simply clone the repository:
