@@ -1,12 +1,13 @@
 ![Logo](https://github.com/eelbaz/lyra/blob/main/lyra-logo.png?raw=true)
 
 
-# Lyra - A GoLang lightweight http Test Object Load and Performance Metrics Agent Integrated with InfluxDB
+# Lyra - A GoLang Lightweight HTTP Test Object, Load and Performance Metrics Agent - Integrated with InfluxDB
 
 
 ## Overview
-A Simple, lightweight, concurrent agent for load simulation and monitoring http test object performance and availability -
-Analyze and monitor performance metrics with configurable virtual users and InfluxDB integration for reporting & vizualization.
+A simple, lightweight, and concurrent agent for load simulation and monitoring HTTP test object performance and availability - analyze and monitor performance metrics with configurable virtual users and InfluxDB integration for comprehensive reporting and visualization.
+
+
 
 ## ![Logo](https://github.com/eelbaz/lyra/blob/main/stats-dashboard.png)
 
