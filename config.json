@@ -10,7 +10,7 @@
   "tag_prefix":"east",
   "resources": [
     {
-      "url": "https://example.com/test-obj.mp4,
+      "url": "https://example.com/test-obj.mp4",
       "cdn": "cdn_a",
       "workflow": "video_test_object"
     }
