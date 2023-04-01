@@ -95,7 +95,7 @@ The results are either displayed in the console or written to InfluxDB, a time s
    a. Total: This metric is a combination of all the above metrics and can be compared to the time command, which is used to measure the execution time of a command.
    b. Total: This metric is calculated as the difference between the time when the resource measurement started and the time when the measurement completed. The calculation is performed using the `time.Since` function.
 
-7. **Availability: This metric represents the HTTP status code of the response, indicating the availability of the resource. For example, a status code of 200 means the resource is available and a status code of 404 means the resource was not found.
+7. **Availability**: This metric represents the HTTP status code of the response, indicating the availability of the resource. For example, a status code of 200 means the resource is available and a status code of 404 means the resource was not found.
 a. Availability: This metric can be compared to the curl or wget command, which can be used to check the HTTP status code of a resource.
 
 
