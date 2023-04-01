@@ -24,7 +24,7 @@ A simple, lightweight, and concurrent agent for load simulation and monitoring H
 ### Installation
 To install the Lyra Performance Metrics Agent, simply clone the repository:
 ``` 
-git clone https://github.com/user/repo.git 
+git clone https://github.com/eelbaz/lyra.git
 ```
 
 
