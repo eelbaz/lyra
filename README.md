@@ -104,7 +104,7 @@ The results are either displayed in the console or written to InfluxDB, a time s
 7. **Availability**: This metric represents the HTTP status code of the response, indicating the availability of the resource. For example, a status code of 200 means the resource is available and a status code of 404 means the resource was not found.
 a. Availability: This metric can be compared to the curl or wget command, which can be used to check the HTTP status code of a resource.
 
-### Basic InfluxDB Install Instructions
+### InfluxDB Instructions
 - https://docs.influxdata.com/influxdb/v2.6/get-started/setup/
 - https://docs.influxdata.com/influxdb/v2.6/get-started/
 - https://github.com/eelbaz/lyra/blob/main/Documentation/Influx-Instructions.pdf
